@@ -1,5 +1,27 @@
 //FCFS CODE
 
+//tat=ct-at
+//wt=tat-bt
+
+//p1 at 0 bt 2 ct 2  tat 2 wt 0
+//p2 at 1 bt 2 ct 4  tat 3 wt 1
+//p3 at 5 bt 3 ct 8  tat 3 wt 0
+//p4 at 6 bt 4 ct 12 tat 6 wt 2
+//Average Waiting Time: 14/4
+//Average Turnaround Time: 3/4
+
+
+// Process ID 1, Burst time 4, Arrival time 0
+// Process ID 2, Burst time 3, Arrival time 1
+// Process ID 3, Burst time 2, Arrival time 2
+// Process ID 4, Burst time 1, Arrival time 3
+// Process ID 5, Burst time 5, Arrival time 4
+//Average Waiting Time: 4.00
+//Average Turnaround Time: 7.00
+
+//Gantt Chart:
+// | P1 | P2 | P3 | P4 | P5 |
+//0    4    7    9    10   15
 
 #include <stdio.h>
 
