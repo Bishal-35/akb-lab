@@ -33,3 +33,152 @@ ans:  find /path/to/search -name "filename"
 6. Which command is used to display CPU information? Execute and show result.
 ans: cat /proc/cpuinfo
 
+
+Q. Write programs to implement the following I/O system calls of UNIX operating system: open, read, write.
+
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/stat.h>  // Include this header for file permission constants
+
+int main() {
+    // File paths
+    const char *file_path = "file1.txt";  //initial file
+    const char *output_path = "file2.txt"; //to be copied file
+    
+    // Open file for reading (O_RDONLY: Read-only mode)
+    int input_fd = open(file_path, O_RDONLY);
+    if (input_fd == -1) {
+        perror("Error opening input file");
+        exit(1);
+    }
+
+    // Open file for writing (O_WRONLY | O_CREAT: Write-only mode, create if it doesn't exist)
+    int output_fd = open(output_path, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    if (output_fd == -1) {
+        perror("Error opening output file");
+        close(input_fd);
+        exit(1);
+    }
+
+    // Buffer to hold data read from the input file
+    char buffer[1024];
+    ssize_t bytes_read;
+
+    // Read from input file and write to output file
+    while ((bytes_read = read(input_fd, buffer, sizeof(buffer))) > 0) {
+        ssize_t bytes_written = write(output_fd, buffer, bytes_read);
+        if (bytes_written != bytes_read) {
+            perror("Error writing to output file");
+            close(input_fd);
+            close(output_fd);
+            exit(1);
+        }
+    }
+
+    // Check if reading encountered an error
+    if (bytes_read == -1) {
+        perror("Error reading from input file");
+    }
+
+    // Close file descriptors
+    close(input_fd);
+    close(output_fd);
+
+    printf("File copy completed successfully!\n");
+    return 0;
+}
+
+
+Q. Write programs to implement the following I/O system calls of UNIX operating system: open, read, write.
+
+//to read
+
+#include <stdio.h>
+
+int main() {
+    char str[100];
+    FILE *fp;
+
+    // Open the file in read mode
+    fp = fopen("file1.txt", "r");
+
+    // Check if the file was opened successfully
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    // Read words from the file until fscanf fails
+    while (fscanf(fp, "%s", str) == 1) {
+        printf("%s ", str);  // Add a space between words
+    }
+
+    fclose(fp);  // Close the file
+    return 0;
+}
+
+
+//to open
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+int main() {
+    // Open a file in read-write mode
+    int fd = open("file2.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+
+    if (fd == -1) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    printf("File opened successfully, file descriptor: %d\n", fd);
+
+    // Close the file
+    close(fd);
+    return 0;
+}
+
+
+//to write
+
+#include <string.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+int main() {
+    const char *data = "Hello, this is a test!\n";
+
+    // Open the file in write-only mode
+    int fd = open("file2.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+
+    if (fd == -1) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    ssize_t bytesWritten = write(fd, data, strlen(data));
+
+    if (bytesWritten == -1) {
+        perror("Error writing to file");
+        close(fd);
+        return 1;
+    }
+
+    printf("Written %zd bytes to file.\n", bytesWritten);
+
+    // Close the file
+    close(fd);
+    return 0;
+}
+
+
+
+
