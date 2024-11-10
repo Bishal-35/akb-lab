@@ -1,0 +1,35 @@
+1. What command is used to display the last 10 lines. Show and execute.
+ans: tail -n 10 filename
+	or
+tail filename
+
+
+2. What command is used to display the manual. Show and execute.
+ans: man command_name
+	(man tail)
+
+3.Which command changes a file's group owner? Execute and show result.
+ans: chgrp group_name filename
+ 	(chgrp developers example.txt)
+	ls -l example.txt
+Check Existing Groups:
+	cat /etc/group
+Create a New Group:
+	sudo groupadd developers
+
+
+4. Which command is used to display memory information? Execute and show result.
+ans: free -h
+	or
+    cat /proc/meminfo
+
+5. Which command is used to find all instance of file? Execute and show result.
+ans:  find /path/to/search -name "filename"
+	(find / -name "example.txt")
+      		or
+      find / -iname filename
+(i makes case insensitive)
+
+6. Which command is used to display CPU information? Execute and show result.
+ans: cat /proc/cpuinfo
+
